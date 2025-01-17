@@ -18,7 +18,6 @@ pip install -r requirements.txt
 2. Create a `.env` file in your project root:
 ```plaintext
 GROQ_API_KEY=your_groq_api_key_here
-PDF=/path/to/your/file.pdf
 ```
 
 ### Getting a Groq API Key
@@ -34,8 +33,8 @@ PDF=/path/to/your/file.pdf
 aristotle-bot/
 ├── .env                  # Environment variables
 ├── main.py              # Main application code
-└── pdf_documents/       # Directory for PDF files
-    └── your_file.pdf    # Your PDF knowledge base
+└── data/       # Directory for PDF files
+    └── for-llama-aristotle.pdf    # Your PDF knowledge base
 ```
 
 ## Environment Setup
@@ -50,11 +49,6 @@ aristotle-bot/
      GROQ_API_KEY=your_groq_api_key_here
      ```
 
-2. **PDF Configuration**
-   - Add the path to your PDF file in the `.env`:
-     ```plaintext
-     PDF=/absolute/path/to/your/pdf/file.pdf
-     ```
    - Ensure the PDF file exists and is readable
 
 ## Running the Application
@@ -66,12 +60,13 @@ python main.py
 
 2. Access the web interface:
    - Open your browser
-   - Navigate to `http://localhost:7860`
+   - Navigate to the thrown IP
 
 ## Features
 
 - **PDF Processing**: Automatically processes and indexes PDF content
 - **RAG Implementation**: Uses FAISS for efficient document retrieval
+- **Phidata**: For using Groq API
 - **Aristotelian Persona**: Responses styled in Aristotle's philosophical tone
 - **Web Interface**: Clean Gradio interface with examples and footer
 - **Groq Integration**: Leverages Groq's powerful LLaMA 3.3 70B model
@@ -104,13 +99,6 @@ Common issues and solutions:
    Error: Invalid API key
    Solution: Verify your GROQ_API_KEY in .env
    ```
-
-2. **PDF Not Found**
-   ```
-   Error: PDF file cannot be found
-   Solution: Check the PDF path in your .env file
-   ```
-
 3. **Memory Issues**
    ```
    Error: Out of memory
