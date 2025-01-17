@@ -12,7 +12,7 @@ The Aristotle Bot is a PDF question-answering system that combines the power of 
 
 1. Clone the repository and install dependencies:
 ```bash
-pip install phi-agent groq langchain faiss-cpu PyPDF2 gradio transformers
+pip install -r requirements.txt
 ```
 
 2. Create a `.env` file in your project root:
