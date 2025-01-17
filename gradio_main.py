@@ -17,7 +17,7 @@ dotenv.load_dotenv()
 
 # Initialize Groq
 groq_agent = Agent(
-    model=Groq(id="llama-3.2-1b-preview")
+    model=Groq(id="llama-3.3-70B-versatile")
 )
 
 # Define the Aristotle prompt template
