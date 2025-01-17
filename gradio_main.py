@@ -67,7 +67,7 @@ def process_pdf(pdf):
     
     return [Document(page_content=text, metadata={"source": f"chunk_{i}"}) for i, text in enumerate(texts)]
 
-pdf_file="for-llama-aristotle.pdf"
+pdf_file="data/for-llama-aristotle.pdf"
 
 def output(query):
     try:
