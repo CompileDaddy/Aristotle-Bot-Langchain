@@ -4,4 +4,3 @@ PyPDF2 # library essential for loading the pdf
 faiss-cpu
 sentence-transformers
 groq
-phidata
