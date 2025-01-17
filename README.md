@@ -3,6 +3,8 @@
 ## Overview
 The Aristotle Bot is a PDF question-answering system that combines the power of Groq's LLaMA 3.3 70B model with RAG (Retrieval-Augmented Generation) capabilities. The bot maintains the persona of Aristotle, providing answers in a philosophical tone while referencing the content from your PDF documents.
 
+![alt text](aristotle-interface.jpeg)
+
 ## Prerequisites
 - Python 3.8+
 - A Groq API key
