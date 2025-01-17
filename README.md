@@ -1,149 +1,149 @@
 # Aristotle Bot Documentation
 
-## Table of Contents
-- [Overview](#overview)
-- [System Architecture](#system-architecture) 
-- [Features](#features)
-- [Technical Implementation](#technical-implementation)
-- [Installation & Setup](#installation--setup)
-- [Usage Examples](#usage-examples)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Overview
-Aristotle Bot is an AI-powered chatbot that emulates the teaching style and philosophical approach of Aristotle. The bot engages users in Socratic dialogue, explores philosophical concepts, and provides insights while maintaining Aristotle's persona.
+The Aristotle Bot is a PDF question-answering system that combines the power of Groq's LLaMA 3.3 70B model with RAG (Retrieval-Augmented Generation) capabilities. The bot maintains the persona of Aristotle, providing answers in a philosophical tone while referencing the content from your PDF documents.
 
-## System Architecture
+## Prerequisites
+- Python 3.8+
+- A Groq API key
+- PDF document(s) for the knowledge base
 
-### Core Components
-- **Base Model**: LLaMA 3.3 70B
-- **Framework**: phi
-- **API Integration**: Groq Cloud API
-- **Tools Integration**: DuckDuckGo, YFinance
+## Installation
 
-### Dependencies
-```python
-from phi.agent import Agent
-from phi.model.groq import Groq
-from phi.tools.duckduckgo import DuckDuckGo
-from phi.tools.yfinance import YFinanceTools
-from dotenv import load_dotenv
+1. Clone the repository and install dependencies:
+```bash
+pip install phi-agent groq langchain faiss-cpu PyPDF2 gradio transformers
 ```
+
+2. Create a `.env` file in your project root:
+```plaintext
+GROQ_API_KEY=your_groq_api_key_here
+PDF=/path/to/your/file.pdf
+```
+
+### Getting a Groq API Key
+
+1. Visit [Groq's website](https://groq.com)
+2. Sign up for an account
+3. Navigate to the API section
+4. Generate a new API key
+5. Copy the API key to your `.env` file
+
+## File Structure
+```
+aristotle-bot/
+├── .env                  # Environment variables
+├── main.py              # Main application code
+└── pdf_documents/       # Directory for PDF files
+    └── your_file.pdf    # Your PDF knowledge base
+```
+
+## Environment Setup
+
+1. **Setting Up Groq**
+   - Export your Groq API key:
+     ```bash
+     export GROQ_API_KEY='your_groq_api_key_here'
+     ```
+   - Or add it to your `.env` file:
+     ```plaintext
+     GROQ_API_KEY=your_groq_api_key_here
+     ```
+
+2. **PDF Configuration**
+   - Add the path to your PDF file in the `.env`:
+     ```plaintext
+     PDF=/absolute/path/to/your/pdf/file.pdf
+     ```
+   - Ensure the PDF file exists and is readable
+
+## Running the Application
+
+1. Start the application:
+```bash
+python main.py
+```
+
+2. Access the web interface:
+   - Open your browser
+   - Navigate to `http://localhost:7860`
 
 ## Features
 
-### 1. Persona Implementation
-- Aristotelian teaching methodology
-- Socratic questioning approach
-- Logical reasoning frameworks
-- Integration of classical philosophical concepts
+- **PDF Processing**: Automatically processes and indexes PDF content
+- **RAG Implementation**: Uses FAISS for efficient document retrieval
+- **Aristotelian Persona**: Responses styled in Aristotle's philosophical tone
+- **Web Interface**: Clean Gradio interface with examples and footer
+- **Groq Integration**: Leverages Groq's powerful LLaMA 3.3 70B model
 
-### 2. Conversation Management
-- Context-aware responses
-- Memory of conversation history
-- Dynamic topic adaptation
-- Error handling and retry mechanisms
+## User Interface
 
-### 3. Knowledge Integration
-- Philosophy and ethics
-- Logic and reasoning
-- Scientific knowledge
-- Current events (via DuckDuckGo)
-- Financial data (via YFinance)
+The interface includes:
+- Input text box for questions
+- Response area for Aristotle's answers
+- Example questions
+- Custom footer with links
+- Professional styling
 
-## Technical Implementation
+## Example Usage
 
-### Agent Configuration
-```python
-web_agent = Agent(
-    name="Web Agent",
-    model=Groq(id="llama-3.3-70b-versatile"),
-    tools=[DuckDuckGo()],
-    instructions=["Always include sources"],
-    show_tool_calls=True,
-    markdown=True,
-)
+1. Upload your PDF document
+2. Ask questions in the input box
+3. Receive philosophical answers based on your PDF content
 
-finance_agent = Agent(
-    name="Finance Agent",
-    role="Get financial data",
-    model=Groq(id="llama-3.3-70b-versatile"),
-    tools=[YFinanceTools(), Symbol],
-    instructions=[
-        "Use tables to display data",
-        "Use Symbol tool for company lookups"
-    ],
-    show_tool_calls=True,
-    markdown=True,
-)
+Example questions:
+- "What is the nature of wisdom?"
+- "How should one pursue knowledge?"
 
-agent_team = Agent(
-    team=[web_agent, finance_agent],
-    model=Groq(id="llama-3.3-70b-versatile"),
-    instructions=[
-        "Always include sources",
-        "Use tables to display data"
-    ],
-    show_tool_calls=True,
-    markdown=True,
-)
-```
+## Troubleshooting
 
-### Error Handling
-```python
-retry_attempts = 3
-for attempt in range(retry_attempts):
-    try:
-        # Agent execution code
-        break
-    except Exception as e:
-        print(f"API error: {e}, Retrying...")
-        time.sleep(3)
-```
+Common issues and solutions:
 
-## Installation & Setup
+1. **API Key Issues**
+   ```
+   Error: Invalid API key
+   Solution: Verify your GROQ_API_KEY in .env
+   ```
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/aristotle-bot.git
-cd aristotle-bot
-```
+2. **PDF Not Found**
+   ```
+   Error: PDF file cannot be found
+   Solution: Check the PDF path in your .env file
+   ```
 
-2. Install dependencies:
-```bash
-pip install phi-agent python-dotenv
-```
+3. **Memory Issues**
+   ```
+   Error: Out of memory
+   Solution: Reduce the chunk_size in the CharacterTextSplitter
+   ```
 
-3. Configure environment variables:
-```bash
-# .env file
-GROQ_API_KEY=your_api_key_here
-```
+## Best Practices
 
-## Usage Examples
+1. **PDF Preparation**
+   - Use text-searchable PDFs
+   - Ensure good quality scans if using scanned documents
+   - Keep PDF size reasonable (under 100MB recommended)
 
-### Basic Interaction
-```python
-response = agent_team.print_response(
-    "Share your thoughts on virtue ethics and its modern applications",
-    stream=True
-)
-```
+2. **Query Formation**
+   - Be specific with questions
+   - Use clear, concise language
+   - One concept per query works best
 
-### Financial Analysis
-```python
-response = agent_team.print_response(
-    "Analyze the financial prospects of Company X",
-    stream=True
-)
-```
+## Limitations
 
-## Contributing
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- Maximum PDF size depends on available memory
+- Response time varies with document size
+- Requires stable internet connection for Groq API
+- PDF must be text-searchable
+
+## Support
+
+For issues and updates:
+1. Check the error messages in the console
+2. Verify environment variables
+3. Ensure all dependencies are correctly installed
+4. Check Groq API status if responses are slow
 
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+
+This project is licensed under the MIT License - see the LICENSE file for details.
